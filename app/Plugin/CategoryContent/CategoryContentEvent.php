@@ -29,11 +29,6 @@ class CategoryContentEvent
     {
         /** @var Category $target_category */
         $TargetCategory = $event->getArgument('TargetCategory');
-        echo "<br />";
-        echo "<br />";
-        echo "<br />";
-        echo "<br />";
-        // var_dump($event->getArguments());
         $id = $TargetCategory->getId();
 
         $CategoryContent = null;
@@ -43,7 +38,6 @@ class CategoryContentEvent
             // カテゴリ編集時は初期値を取得
             $CategoryContent = $this->app['category_content.repository.category_content']->find($id);
         }
-// var_dump($CategoryContent);
 
          // カテゴリ新規登録またはコンテンツが未登録の場合
         if (is_null($CategoryContent)) {
@@ -54,8 +48,6 @@ class CategoryContentEvent
         /** @var FormInterface $builder */
         // FormBuildeの取得
         $builder = $event->getArgument('builder');
-        // var_dump($builder);
-        // var_dump(get_class_methods($builder));
         // 項目の追加
         $builder->add(
             self::CATEGORY_CONTENT_TEXTAREA_NAME,
@@ -69,7 +61,6 @@ class CategoryContentEvent
                 ),
             )
         );
-// var_dump($CategoryContent->getContent());
         // 初期値を設定
         $builder->get(self::CATEGORY_CONTENT_TEXTAREA_NAME)->setData($CategoryContent->getContent());
 
@@ -96,14 +87,6 @@ class CategoryContentEvent
         if (is_null($CategoryContent)) {
             $CategoryContent = new CategoryContent();
         }
-
-        // echo "<br />";
-        // echo "<br />";
-        // echo "<br />";
-        // echo "<br />";
-        // var_dump(array_keys($event->getArguments()));
-        // var_dump($form);
-        // exit;
 
         // エンティティを更新
         $CategoryContent
