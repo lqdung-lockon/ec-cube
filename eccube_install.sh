@@ -91,7 +91,7 @@ case "${DBTYPE}" in
     #-- DB Seting MySQL
     MYSQL=mysql
     ROOTUSER=root
-    ROOTPASS=
+    ROOTPASS=${DBPASS}
     DBSERVER=${DBSERVER}
     export DBPORT=3306
     export DBDRIVER=pdo_mysql

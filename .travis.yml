@@ -39,7 +39,7 @@ env:
   - DB=mysql USER=root DBNAME=cube3_dev DBPASS=password DBUSER=cube3_dev_user
 
 #  - DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
-#  - DB=sqlite
+  - DB=sqlite
 
 install:
   - gem install mime-types -v 2.99.1
