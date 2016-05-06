@@ -224,13 +224,13 @@ case "${DBTYPE}" in
 
     # MySQL
     echo "dropdb..."
-    ${MYSQL} -u ${ROOTUSER} ${PASSOPT} -e "drop database \`${DBNAME}\`"
+    ${MYSQL} -u ${ROOTUSER} -p ${PASSOPT} -e "drop database \`${DBNAME}\`"
 
     echo "createdb..."
-    ${MYSQL} -u ${ROOTUSER} ${PASSOPT} -e "create database \`${DBNAME}\` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    ${MYSQL} -u ${ROOTUSER} -p ${PASSOPT} -e "create database \`${DBNAME}\` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;"
 
     #echo "grant user..."
-    ${MYSQL} -u ${ROOTUSER} ${PASSOPT} -e "GRANT ALL ON \`${DBNAME}\`.* TO '${DBUSER}'@'%' IDENTIFIED BY '${DBPASS}'"
+    ${MYSQL} -u ${ROOTUSER} -p ${PASSOPT} -e "GRANT ALL ON \`${DBNAME}\`.* TO '${DBUSER}'@'%' IDENTIFIED BY '${DBPASS}'"
 
     echo "create table..."
     ./vendor/bin/doctrine orm:schema-tool:create
