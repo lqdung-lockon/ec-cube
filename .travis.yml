@@ -17,7 +17,7 @@ matrix:
   exclude:
     - php: 5.6
       env: DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
-#  allow_failures:
+  allow_failures:
 #    - php: hhvm
 #    - php: 7.0
 #    - php: 5.3.3
@@ -27,8 +27,8 @@ matrix:
 #      env: DB=sqlite
 #    - PHP: 5.5
 #      env: DB=sqlite
-#    - PHP: 5.6
-#      env: DB=sqlite
+    - PHP: 5.6
+      env: DB=mysql USER=root DBNAME=myapp_test DBPASS='' DBUSER=root
 env:
   - DB=mysql USER=root DBNAME=myapp_test DBPASS='' DBUSER=root
   - DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
