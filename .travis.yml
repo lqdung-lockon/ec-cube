@@ -30,7 +30,7 @@ php:
 #    - PHP: 5.6
 #      env: DB=mysql USER=root DBNAME=cube3_dev DBPASS='password' DBUSER=cube3_dev_user
 env:
-  - DB=mysql USER=root DBNAME=cube3_dev DBPASS='' DBUSER=root
+  - DB=mysql
 #  - DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
 #  - DB=sqlite
 
