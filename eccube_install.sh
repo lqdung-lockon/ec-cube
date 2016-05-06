@@ -220,9 +220,11 @@ case "${DBTYPE}" in
     if [ -n ${DBPASS} ]; then
         PASSOPT="--password=$DBPASS"
         CONFIGPASS=$DBPASS
-    else
-        PASSOPT="-p"
     fi
+
+    echo 'password'
+    echo {$DBPASS}
+    echo {$PASSOPT}
 
     # MySQL
     echo "create user..."
