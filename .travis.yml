@@ -4,41 +4,41 @@ git:
   submodules: false
 
 language: php
-sudo: false
+sudo: true
 cache:
   directories:
     - vendor
     - $HOME/.composer/cache
 php:
-  - 5.3.3
-  - 5.3
-  - 5.4
-  - 5.5
   - 5.6
-  - hhvm
-  - 7.0
 
-matrix:
-  fast_finish: true
-  exclude:
-    - php: hhvm
-      env: DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres # driver currently unsupported by HHVM
-  allow_failures:
-    - php: hhvm
-    - php: 7.0
-    - php: 5.3.3
-    - PHP: 5.3
-      env: DB=sqlite
-    - PHP: 5.4
-      env: DB=sqlite
-    - PHP: 5.5
-      env: DB=sqlite
-    - PHP: 5.6
-      env: DB=sqlite
+#services:
+#  - mysql
+
+#matrix:
+#  fast_finish: true
+#  include:
+#    - php: 5.6
+#    - env: DB=mysql
+#  exclude:
+#    - php: 5.6
+#      env: DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
+#  allow_failures:
+#    - php: hhvm
+#    - php: 7.0
+#    - php: 5.3.3
+#    - PHP: 5.3
+#      env: DB=sqlite
+#    - PHP: 5.4
+#      env: DB=sqlite
+#    - PHP: 5.5
+#      env: DB=sqlite
+#    - PHP: 5.6
+#      env: DB=mysql USER=root DBNAME=cube3_dev DBPASS='password' DBUSER=cube3_dev_user
 env:
-  - DB=mysql USER=root DBNAME=myapp_test DBPASS=' ' DBUSER=root
-  - DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
-  - DB=sqlite
+  - DB=mysql USER=root DBNAME=cube3_dev DBPASS=password DBUSER=cube3_dev_user
+#  - DB=pgsql USER=postgres DBNAME=myapp_test DBPASS=password DBUSER=postgres
+#  - DB=sqlite
 
 install:
   - gem install mime-types -v 2.99.1
@@ -56,9 +56,12 @@ script:
   - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then phpunit --coverage-clover=coverage.clover ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then phpunit ; fi
 
-after_script:
-  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then wget https://scrutinizer-ci.com/ocular.phar ; fi
-  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover ; fi
+#after_script:
+#  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then wget https://scrutinizer-ci.com/ocular.phar ; fi
+#  - if [[ $TRAVIS_PHP_VERSION =~ ^hhvm ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover ; fi
 
+branches:
+  only:
+    - /^admin_.*$/
 # after_failure:
 #   - 'cat app/log/site_`date +"%Y-%m-%d"`.log'
