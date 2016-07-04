@@ -666,6 +666,12 @@ class ShoppingController extends AbstractController
             $app->addError('front.shopping.order.error');
             return $app->redirect($app->url('shopping_error'));
         }
+
+        $BaseInfo = $app['eccube.repository.base_info']->get();
+        if (!$id && $BaseInfo->getOptionMultipleShipping() == Constant::DISABLED) {
+            throw new NotFoundHttpException();
+        }
+
         $Shipping = $Order->getShippings()->first();
         if ($id) {
             $Shipping = $Order->findShipping($id);
@@ -680,7 +686,7 @@ class ShoppingController extends AbstractController
         $CustomerAddress = new CustomerAddress();
         if ($app->isGranted('IS_AUTHENTICATED_FULLY')) {
             $CustomerAddress->setCustomer($Customer);
-        } elseif ($id) {
+        } else {
             $CustomerAddress->setFromShipping($Shipping);
         }
 
