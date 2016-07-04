@@ -84,6 +84,14 @@ $(function() {
 
 {% block main %}
     <h1 class="page-heading">お届け先の複数指定</h1>
+    <p id="list_box__add_button">
+        {% if Customer.CustomerAddresses|length < app.config.deliv_addr_max %}
+            <a href="{{ url('shopping_shipping_edit', {'id': 0}) }}" class="btn btn-default btn-sm">新規お届け先を追加する</a>
+        {% else %}
+            <span id="list_box__deliv_addr_max_message" class="text-danger">お届け先登録上限の{{ app.config.deliv_addr_max }}件に達しています。お届け先を入力したい場合は、削除か変更を行ってください</span>
+        {% endif %}
+    </p>
+
     <div id="multiple_wrap" class="container-fluid">
         <form id="shipping-multiple-form" method="post" action="{{ url('shopping_shipping_multiple') }}">
             {{ form_widget(form._token) }}

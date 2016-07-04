@@ -666,19 +666,21 @@ class ShoppingController extends AbstractController
             $app->addError('front.shopping.order.error');
             return $app->redirect($app->url('shopping_error'));
         }
-
-        $Shipping = $Order->findShipping($id);
-        if (!$Shipping) {
-            throw new NotFoundHttpException();
-        }
-        if ($app->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $Shipping->clearCustomerAddress();
+        $Shipping = $Order->getShippings()->first();
+        if ($id) {
+            $Shipping = $Order->findShipping($id);
+            if (!$Shipping) {
+                throw new NotFoundHttpException();
+            }
+            if ($app->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $Shipping->clearCustomerAddress();
+            }
         }
 
         $CustomerAddress = new CustomerAddress();
         if ($app->isGranted('IS_AUTHENTICATED_FULLY')) {
             $CustomerAddress->setCustomer($Customer);
-        } else {
+        } elseif ($id) {
             $CustomerAddress->setFromShipping($Shipping);
         }
 
@@ -700,20 +702,24 @@ class ShoppingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // 会員の場合、お届け先情報を新規登録
-            $Shipping->setFromCustomerAddress($CustomerAddress);
+            if ($id) {
+                // 会員の場合、お届け先情報を新規登録
+                $Shipping->setFromCustomerAddress($CustomerAddress);
+            }
 
             if ($Customer instanceof Customer) {
                 $app['orm.em']->persist($CustomerAddress);
             }
 
-            // 配送料金の設定
-            $app['eccube.service.shopping']->setShippingDeliveryFee($Shipping);
+            if ($id) {
+                // 配送料金の設定
+                $app['eccube.service.shopping']->setShippingDeliveryFee($Shipping);
+            }
 
             // 合計金額の再計算
             $app['eccube.service.shopping']->getAmount($Order);
 
-            // 配送先を更新 
+            // 配送先を更新
             $app['orm.em']->flush();
 
             $event = new EventArgs(
@@ -725,8 +731,10 @@ class ShoppingController extends AbstractController
                 $request
             );
             $app['eccube.event.dispatcher']->dispatch(EccubeEvents::FRONT_SHOPPING_SHIPPING_EDIT_COMPLETE, $event);
-
-            return $app->redirect($app->url('shopping'));
+            if ($id) {
+                return $app->redirect($app->url('shopping'));
+            }
+            return $app->redirect($app->url('shopping_shipping_multiple'));
         }
 
         return $app->render('Shopping/shipping_edit.twig', array(
@@ -1028,6 +1036,7 @@ class ShoppingController extends AbstractController
      */
     public function shippingMultiple(Application $app, Request $request)
     {
+        $Customer = $app->user();
         $cartService = $app['eccube.service.cart'];
 
         // カートチェック
@@ -1231,6 +1240,7 @@ class ShoppingController extends AbstractController
             'shipmentItems' => $shipmentItems,
             'compItemQuantities' => $compItemQuantities,
             'errors' => $errors,
+            'Customer' => $Customer
         ));
     }
 
