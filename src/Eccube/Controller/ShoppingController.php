@@ -1145,6 +1145,7 @@ class ShoppingController extends AbstractController
                             'shipmentItems' => $shipmentItems,
                             'compItemQuantities' => $compItemQuantities,
                             'errors' => $errors,
+                            'Customer' => $Customer
                         ));
                     }
                 }
