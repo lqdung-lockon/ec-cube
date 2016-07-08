@@ -195,6 +195,8 @@ abstract class EccubeTestCase extends WebTestCase
         $this->app['orm.em']->persist($CustomerAddress);
         $this->app['orm.em']->flush();
 
+        $Customer->addCustomerAddress($CustomerAddress);
+        
         return $Customer;
     }
 
