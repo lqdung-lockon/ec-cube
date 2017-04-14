@@ -424,6 +424,11 @@ var setModeAndSubmit = function(mode, keyname, keyid) {
                                                     {% if BaseInfo.optionMultipleShipping %}
                                                         数量：{{ form_widget(orderDetailForm.quantity, {'read_only': 'readonly'}) }}
                                                     {% else %}
+                                                        {% if orderDetailForm.vars.value.quantity is not empty %}
+                                                            {{ orderDetailForm.vars.value.quantity }}<br/>
+                                                        {% else %}
+                                                            指定なし
+                                                        {% endif %}
                                                         数量：{{ form_widget(orderDetailForm.quantity) }}
                                                     {% endif %}
                                                     {{ form_errors(orderDetailForm.quantity) }}
@@ -579,6 +584,11 @@ var setModeAndSubmit = function(mode, keyname, keyid) {
                                         </div>
                                         <div id="shipment_item__quantity--{{ shippingIndex }}--{{ shippingItemkey }}" class="col-md-4 col-lg-3 form-group form-inline text-right">
                                             <span class="item_quantity">
+                                                {% if shipmentItemForm.vars.value.quantity is not empty %}
+                                                    {{ shipmentItemForm.vars.value.quantity }}<br/>
+                                                {% else %}
+                                                    指定なし
+                                                {% endif %}
                                                 数量：{{ form_widget(shipmentItemForm.quantity, {'attr': {'class': 'shipment_quantity'}}) }}
                                                 {{ form_errors(shipmentItemForm.quantity) }}
                                             </span>
@@ -696,6 +706,11 @@ var setModeAndSubmit = function(mode, keyname, keyid) {
                             <div id="shipment_item_detail__shipping_delivery_date--{{ shippingIndex }}" class="form-group">
                                 {{ form_label(shippingForm.shipping_delivery_date) }}
                                 <div class="col-sm-9 col-lg-10">
+                                    {% if shippingForm.vars.value.shipping_delivery_date is not empty %}
+                                        {{ shippingForm.vars.value.shipping_delivery_date|date('Y-m-d') }}<br/>
+                                    {% else %}
+                                        指定なし
+                                    {% endif %}
                                     {{ form_widget(shippingForm.shipping_delivery_date) }}
                                     {{ form_errors(shippingForm.shipping_delivery_date) }}
                                 </div>
