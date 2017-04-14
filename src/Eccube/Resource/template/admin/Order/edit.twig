@@ -426,8 +426,6 @@ var setModeAndSubmit = function(mode, keyname, keyid) {
                                                     {% else %}
                                                         {% if orderDetailForm.vars.value.quantity is not empty %}
                                                             {{ orderDetailForm.vars.value.quantity }}<br/>
-                                                        {% else %}
-                                                            指定なし
                                                         {% endif %}
                                                         数量：{{ form_widget(orderDetailForm.quantity) }}
                                                     {% endif %}
@@ -586,8 +584,6 @@ var setModeAndSubmit = function(mode, keyname, keyid) {
                                             <span class="item_quantity">
                                                 {% if shipmentItemForm.vars.value.quantity is not empty %}
                                                     {{ shipmentItemForm.vars.value.quantity }}<br/>
-                                                {% else %}
-                                                    指定なし
                                                 {% endif %}
                                                 数量：{{ form_widget(shipmentItemForm.quantity, {'attr': {'class': 'shipment_quantity'}}) }}
                                                 {{ form_errors(shipmentItemForm.quantity) }}
