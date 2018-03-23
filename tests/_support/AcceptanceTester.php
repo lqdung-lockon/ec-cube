@@ -39,13 +39,10 @@ class AcceptanceTester extends \Codeception\Actor
         $I = $this;
         $this->goToAdminPage($dir);
 
-        $I->wait(10);
         $I->submitForm('#form1', [
             'login_id' => $user,
             'password' => $password
         ]);
-
-        $I->wait(10);
 
         $I->see('ホーム', '.c-contentsArea .c-pageTitle > .c-pageTitle__titles');
     }

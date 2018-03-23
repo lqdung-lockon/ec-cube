@@ -11,6 +11,7 @@ modules:
         - Db
         - WebDriver
         - Asserts
+        - MailCatcher
     config:
         Db:
             dsn: 'mysql:host=localhost;dbname=test;charset=utf8'
@@ -30,36 +31,6 @@ modules:
 #                 unexpectedAlertBehaviour: 'accept'
 #                 firefox_profile: 'ff_profile.zip.b64'
 #                 elementScrollBehavior: 1
-env:
-    default:
-        modules:
-            config:
-                WebDriver:
-                    browser: firefox
-                Db:
-                    dsn: 'mysql:host=127.0.0.1;dbname=test'
-
-    front: # Backward compatibility
-        modules:
-            config:
-                WebDriver:
-                    browser: firefox
-                Db:
-                    dsn: 'mysql:host=127.0.0.1;dbname=test'
-    admin: # Backward compatibility
-        modules:
-            config:
-                WebDriver:
-                    browser: firefox
-                Db:
-                    dsn: 'mysql:host=127.0.0.1;dbname=test'
-    firefox:
-        modules:
-            config:
-                WebDriver:
-                    browser: firefox
-    mysql:
-        modules:
-            config:
-                Db:
-                    dsn: 'mysql:host=127.0.0.1;dbname=test;charset=utf8'
+        MailCatcher:
+            url: 'http://59.106.214.245'
+            port: '1080'
