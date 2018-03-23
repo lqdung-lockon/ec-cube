@@ -7,15 +7,6 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-#        - Symfony:
-#            app_kernel: 'null'
-#            var_path: 'var'
-#            app_path: "src/Eccube"
-#            environment: 'test'
-#              app_path: 'src/Eccube'
-#              environment: 'test'
-#        - Doctrine2:
-#            depends: Symfony
         - \Helper\Acceptance
         - Db
         - WebDriver
@@ -23,23 +14,21 @@ modules:
     config:
         Db:
             dsn: 'mysql:host=localhost;dbname=test;charset=utf8'
-#            dsn: 'sqlite:tests/_data/sqlite.db'
             user: 'root'
             password: ''
             populate: true
             cleanup: false
             reconnect: true
             dump: 'tests/_data/dump.sql'
-#            populator: '/e/Software/xampp/mysql/bin/mysql.exe -u root test < tests/_data/dump.sql'
-#            populator: 'mysql -u $user -h $host $dbname < $dump'
         WebDriver:
-            url: 'http://127.0.0.1:8080'
-#            host: browser
-            browser: firefox
+            url: 'http://eccube.sf'
+            browser: chrome
+#            window_size: 1680x3000
+            port: 9515
             wait: 10
-            capabilities:
-                 unexpectedAlertBehaviour: 'accept'
-                 firefox_profile: 'ff_profile.zip.b64'
+#            capabilities:
+#                 unexpectedAlertBehaviour: 'accept'
+#                 firefox_profile: 'ff_profile.zip.b64'
 #                 elementScrollBehavior: 1
 env:
     default:
