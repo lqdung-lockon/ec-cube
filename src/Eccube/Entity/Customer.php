@@ -237,6 +237,12 @@ class Customer extends \Eccube\Entity\AbstractEntity implements UserInterface
      * @ORM\Column(name="reset_key", type="string", length=255, nullable=true)
      */
     private $reset_key;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="api_key", type="string", length=255, nullable=true)
+     */
+    private $api_key;
 
     /**
      * @var \DateTime|null
@@ -1374,5 +1380,35 @@ class Customer extends \Eccube\Entity\AbstractEntity implements UserInterface
     public function getPoint()
     {
         return $this->point;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getApiKey()
+    {
+        return $this->api_key;
+    }
+
+    /**
+     * @param null|string $api_key
+     */
+    public function setApiKey(string $api_key)
+    {
+        $this->api_key = $api_key;
+    }
+
+    /**
+     * Generates an API Key
+     */
+    public function generateApiKey()
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $apikey = '';
+        for ($i = 0; $i < 64; $i++) {
+            $apikey .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $apikey = base64_encode(sha1(uniqid('ue' . rand(rand(), rand())) . $apikey));
+        $this->api_key = $apikey;
     }
 }

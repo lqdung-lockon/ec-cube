@@ -15,8 +15,16 @@ security:
             id: Eccube\Security\Core\User\MemberProvider
         customer_provider:
             id: Eccube\Security\Core\User\CustomerProvider
+        api_key_user_provider:
+            id: Eccube\Security\Api\ApiKeyUserProvider
     # https://symfony.com/doc/current/security.html#initial-security-yml-setup-authentication
     firewalls:
+        main:
+            pattern: ^/api
+            stateless: true
+            simple_preauth:
+                authenticator: Eccube\Security\Api\ApiKeyAuthenticator
+            provider: api_key_user_provider
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -65,6 +73,7 @@ security:
         - { path: ^/mypage/withdraw_complete, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: "@=container.getParameter('eccube_force_ssl') ? 'https' : 'http'" }
         - { path: ^/mypage/change, roles: IS_AUTHENTICATED_FULLY, requires_channel: "@=container.getParameter('eccube_force_ssl') ? 'https' : 'http'" }
         - { path: ^/mypage/, roles: ROLE_USER, requires_channel: "@=container.getParameter('eccube_force_ssl') ? 'https' : 'http'" }
+        - { path: ^/api, roles: ROLE_API }
 
     access_decision_manager:
         strategy: unanimous
