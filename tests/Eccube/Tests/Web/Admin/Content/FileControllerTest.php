@@ -84,6 +84,11 @@ class FileControllerTest extends AbstractAdminWebTestCase
                     'create_file' => $folder,
                     'file' => '',
                 ],
+                'now_dir' => $this->normalizePath($this->getUserDataDir()),
+                'tree_select_file' => $this->normalizePath($this->getUserDataDir()),
+                'now_file' => $this->normalizePath($this->getUserDataDir()),
+                'tree_status' => '',
+                'select_file' => $this->normalizePath($this->getUserDataDir()),
                 'mode' => 'create',
             ]
         );
@@ -128,6 +133,11 @@ class FileControllerTest extends AbstractAdminWebTestCase
     protected function getUserDataDir()
     {
         return $this->container->getParameter('kernel.project_dir').'/html/user_data';
+    }
+
+    protected function normalizePath($path)
+    {
+        return str_replace('\\', '/', realpath($path));
     }
 
     public function tearDown()

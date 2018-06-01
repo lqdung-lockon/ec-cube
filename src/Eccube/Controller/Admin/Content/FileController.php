@@ -60,14 +60,14 @@ class FileController extends AbstractController
             ->getForm();
 
         // user_data_dir
-        // $userDataDir = $this->getUserDataDir();
-        // $topDir = $this->normalizePath($userDataDir);
-        $topDir = '/';
+         $userDataDir = $this->getUserDataDir();
+         $topDir = $this->normalizePath($userDataDir);
+//        $topDir = '/';
         // user_data_dirの親ディレクトリ
-        $htmlDir = $this->normalizePath($this->getUserDataDir().'/../');
+        $htmlDir = $this->normalizePath($userDataDir.'/../');
 
         // カレントディレクトリ
-        $nowDir = $this->checkDir($this->getUserDataDir($request->get('tree_select_file')), $this->getUserDataDir())
+        $nowDir = $this->checkDir($this->getUserDataDir($request->get('tree_select_file')), $userDataDir)
             ? $this->normalizePath($this->getUserDataDir($request->get('tree_select_file')))
             : $topDir;
 
@@ -89,7 +89,7 @@ class FileController extends AbstractController
             }
         }
 
-        $tree = $this->getTree($this->getUserDataDir(), $request);
+        $tree = $this->getTree($userDataDir, $request);
         $arrFileList = $this->getFileList($nowDir);
         $paths = $this->getPathsToArray($tree);
         $tree = $this->getTreeToArray($tree);
@@ -335,8 +335,8 @@ class FileController extends AbstractController
             ->files()
             ->sortByName()
             ->depth(0);
-        $dirs = iterator_to_array($dirFinder);
-        $files = iterator_to_array($fileFinder);
+        $dirs = $dirFinder->getIterator();
+        $files = $fileFinder->getIterator();
 
         $arrFileList = [];
         foreach ($dirs as $dir) {
