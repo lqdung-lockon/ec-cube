@@ -88,8 +88,8 @@ class FileController extends AbstractController
                     break;
             }
         }
-
         $tree = $this->getTree($this->getUserDataDir(), $request);
+        dump($nowDir);
         $arrFileList = $this->getFileList($nowDir);
         $paths = $this->getPathsToArray($tree);
         $tree = $this->getTreeToArray($tree);
@@ -324,24 +324,26 @@ class FileController extends AbstractController
 
             return strpos($targetPath, $acceptPath) === 0;
         };
-        $dirFinder = Finder::create()
-            ->filter($filter)
-            ->in($nowDir)
-            ->directories()
-            ->sortByName()
-            ->depth(0);
-        $fileFinder = Finder::create()
-            ->filter($filter)
-            ->in($nowDir)
-            ->files()
-            ->sortByName()
-            ->depth(0);
+
         try {
+            $dirFinder = Finder::create()
+                ->filter($filter)
+                ->in($nowDir)
+                ->directories()
+                ->sortByName()
+                ->depth(0);
             $dirs = $dirFinder->getIterator();
         } catch (\Exception $e) {
             $dirs = [];
         }
+
         try {
+            $fileFinder = Finder::create()
+                ->filter($filter)
+                ->in($nowDir)
+                ->files()
+                ->sortByName()
+                ->depth(0);
             $files = $fileFinder->getIterator();
         } catch (\Exception $e) {
             $files = [];

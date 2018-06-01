@@ -103,7 +103,7 @@ class EA06ContentsManagementCest
 
         $I->see('folder1', $FileManagePage->ファイル名(1));
 
-        // Todo: check breadcrumbs
+        // Todo: breadcrumbs incomplete
 //        $FileManagePage->一覧_表示(1);
 //        $I->see('folder1', $FileManagePage->パンくず(1));
 
