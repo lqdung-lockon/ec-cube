@@ -84,15 +84,9 @@ class FileControllerTest extends AbstractAdminWebTestCase
                     'create_file' => $folder,
                     'file' => '',
                 ],
-                'now_dir' => '/',
-                'tree_select_file' => '/',
-                'now_file' => '/',
-                'tree_status' => '',
-                'select_file' => '',
                 'mode' => 'create',
             ]
         );
-        $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertTrue(is_dir($this->getUserDataDir().'/'.$folder));
     }
 
