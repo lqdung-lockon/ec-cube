@@ -75,8 +75,7 @@ class FileControllerTest extends AbstractAdminWebTestCase
     public function testIndexWithCreate()
     {
         $folder = 'create_folder';
-        $userPath = $this->getUserDataDir();
-        $crawler = $this->client->request(
+        $this->client->request(
             'POST',
             $this->generateUrl('admin_content_file'),
             [
@@ -94,7 +93,7 @@ class FileControllerTest extends AbstractAdminWebTestCase
             ]
         );
 
-        $this->assertTrue(is_dir($userPath.'/'.$folder));
+        $this->assertTrue(is_dir($this->getUserDataDir().'/'.$folder));
     }
 
     public function testIndexWithUpload()
@@ -133,11 +132,6 @@ class FileControllerTest extends AbstractAdminWebTestCase
     protected function getUserDataDir()
     {
         return $this->container->getParameter('kernel.project_dir').'/html/user_data';
-    }
-
-    protected function normalizePath($path)
-    {
-        return str_replace('\\', '/', realpath($path));
     }
 
     public function tearDown()
