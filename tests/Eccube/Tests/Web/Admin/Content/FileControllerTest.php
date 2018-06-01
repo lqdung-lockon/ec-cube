@@ -88,6 +88,7 @@ class FileControllerTest extends AbstractAdminWebTestCase
                 'now_dir' => $this->getUserDataDir(),
             ]
         );
+        dump($this->client->getResponse()->getContent());
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertTrue(is_dir($this->getUserDataDir().'/'.$folder));
     }
