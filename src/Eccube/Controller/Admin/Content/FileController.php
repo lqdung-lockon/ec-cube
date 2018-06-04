@@ -351,7 +351,7 @@ class FileController extends AbstractController
 
         $arrFileList = [];
         foreach ($dirs as $dir) {
-            $dirPath = $this->getJailDir($this->normalizePath($dir->getRealPath()));
+            $dirPath = $this->normalizePath($dir->getRealPath());
             $childDir = Finder::create()
                 ->in($dirPath)
                 ->directories()
@@ -363,7 +363,7 @@ class FileController extends AbstractController
             $countNumber = $childDir->count() + $childFile->count();
             $arrFileList[] = [
                 'file_name' => $this->convertStrFromServer($dir->getFilename()),
-                'file_path' => $this->convertStrFromServer($dirPath),
+                'file_path' => $this->convertStrFromServer($this->getJailDir($dirPath)),
                 'file_size' => FilesystemUtil::sizeToHumanReadable($dir->getSize()),
                 'file_time' => date('Y/m/d', $dir->getmTime()),
                 'is_dir' => true,
