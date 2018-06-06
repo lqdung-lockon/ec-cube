@@ -20,6 +20,7 @@ use Eccube\Repository\PluginRepository;
 use Eccube\Service\Composer\ComposerApiService;
 use Eccube\Service\PluginService;
 use Eccube\Service\SchemaService;
+use Eccube\Util\CacheUtil;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -72,9 +73,10 @@ class PluginServiceTest extends AbstractServiceTestCase
             $this->deleteFile($dir);
         }
 
-        /*foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
+        foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
             unlink($file);
-        }*/
+        }
+        $this->container->get(CacheUtil::class)->clearCache('test');
 
         $this->deleteAllRows(['dtb_plugin_event_handler', 'dtb_plugin']);
 
@@ -365,7 +367,15 @@ EOD;
 
         // enable/disableできるか
         $this->assertTrue($this->service->disable($plugin));
+        foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
+            unlink($file);
+        }
+        $this->container->get(CacheUtil::class)->clearCache('test');
         $this->assertTrue($this->service->enable($plugin));
+        foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
+            unlink($file);
+        }
+        $this->container->get(CacheUtil::class)->clearCache('test');
 
         // イベント定義を更新する
         $event = [];

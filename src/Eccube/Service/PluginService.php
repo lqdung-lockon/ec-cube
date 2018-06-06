@@ -480,6 +480,10 @@ class PluginService
         $this->disable($plugin);
         $this->unregisterPlugin($plugin);
 
+        if ($force) {
+            $this->deleteFile($pluginDir);
+            $this->removeAssets($plugin->getCode());
+        }
         // スキーマを更新する
         //FIXME: Update schema before no affect
         $this->schemaService->updateSchema([], $this->projectRoot.'/app/proxy/entity');
@@ -488,10 +492,6 @@ class PluginService
         $namespace = 'Plugin\\'.$plugin->getCode().'\\Entity';
         $this->schemaService->dropTable($namespace);
 
-        if ($force) {
-            $this->deleteFile($pluginDir);
-            $this->removeAssets($plugin->getCode());
-        }
 
         ConfigManager::writePluginConfigCache();
 
