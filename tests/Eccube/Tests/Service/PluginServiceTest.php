@@ -18,6 +18,7 @@ use Eccube\Exception\PluginException;
 use Eccube\Plugin\ConfigManager;
 use Eccube\Repository\PluginRepository;
 use Eccube\Service\Composer\ComposerApiService;
+use Eccube\Service\EntityProxyService;
 use Eccube\Service\PluginService;
 use Eccube\Service\SchemaService;
 use Eccube\Util\CacheUtil;
@@ -44,17 +45,23 @@ class PluginServiceTest extends AbstractServiceTestCase
      */
     public function setUp()
     {
-        $this->markTestIncomplete('Waiting fix upload, install/uninstall plugin feature complete');
         parent::setUp();
 
         $this->service = $this->container->get(PluginService::class);
+
         $rc = new \ReflectionClass($this->service);
         $prop = $rc->getProperty('schemaService');
         $prop->setAccessible(true);
         $prop->setValue($this->service, $this->createMock(SchemaService::class));
+
         $prop = $rc->getProperty('composerService');
         $prop->setAccessible(true);
         $prop->setValue($this->service, $this->createMock(ComposerApiService::class));
+
+        $prop = $rc->getProperty('entityProxyService');
+        $prop->setAccessible(true);
+        $prop->setValue($this->service, $this->createMock(EntityProxyService::class));
+
         $this->pluginRepository = $this->container->get(PluginRepository::class);
     }
 
@@ -77,7 +84,6 @@ class PluginServiceTest extends AbstractServiceTestCase
         foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
             unlink($file);
         }
-        $this->container->get(CacheUtil::class)->clearCache('test');
 
         $this->deleteAllRows(['dtb_plugin_event_handler', 'dtb_plugin']);
 
