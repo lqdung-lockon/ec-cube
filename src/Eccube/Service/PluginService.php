@@ -498,7 +498,6 @@ class PluginService
         $namespace = 'Plugin\\'.$plugin->getCode().'\\Entity';
         $this->schemaService->dropTable($namespace);
 
-
         ConfigManager::writePluginConfigCache();
 
         return true;
