@@ -185,7 +185,7 @@ class PluginService
 //            $dependents = $this->getDependentByCode($config['code'], self::OTHER_LIBRARY);
 //            if (!empty($dependents)) {
 //                $package = $this->parseToComposerCommand($dependents);
-                //FIXME: how to working with ComposerProcessService or ComposerApiService ?
+            //FIXME: how to working with ComposerProcessService or ComposerApiService ?
 //                $this->composerService->execRequire($package);
 //            }
 
