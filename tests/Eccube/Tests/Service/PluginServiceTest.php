@@ -374,15 +374,8 @@ EOD;
 
         // enable/disableできるか
         $this->assertTrue($this->service->disable($plugin));
-        foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
-            unlink($file);
-        }
-        $this->container->get(CacheUtil::class)->clearCache('test');
+
         $this->assertTrue($this->service->enable($plugin));
-        foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
-            unlink($file);
-        }
-        $this->container->get(CacheUtil::class)->clearCache('test');
 
         // イベント定義を更新する
         $event = [];
