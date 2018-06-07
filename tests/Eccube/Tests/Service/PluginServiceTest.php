@@ -25,6 +25,9 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @group cache-clear
+ */
 class PluginServiceTest extends AbstractServiceTestCase
 {
     /**
@@ -44,7 +47,6 @@ class PluginServiceTest extends AbstractServiceTestCase
      */
     public function setUp()
     {
-        $this->markTestSkipped('dsadsa');
         parent::setUp();
 
         $this->service = $this->container->get(PluginService::class);
