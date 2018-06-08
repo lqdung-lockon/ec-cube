@@ -82,9 +82,9 @@ class PluginServiceWithEntityExtensionTest extends AbstractServiceTestCase
             $this->deleteFile($dir);
         }
 
-        foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
-            unlink($file);
-        }
+//        foreach (glob($this->container->getParameter('kernel.project_dir').'/app/proxy/entity/*.php') as $file) {
+//            unlink($file);
+//        }
         parent::tearDown();
     }
 
