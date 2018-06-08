@@ -570,7 +570,7 @@ class PluginService
         $em = $this->entityManager;
         try {
             PluginConfigManager::removePluginConfigCache();
-            $this->cacheUtil->clearCache();
+//            $this->cacheUtil->clearCache();
             $pluginDir = $this->calcPluginDir($plugin->getCode());
             $em->getConnection()->beginTransaction();
             $plugin->setEnabled($enable ? true : false);
@@ -588,7 +588,7 @@ class PluginService
             $em->getConnection()->rollback();
             throw $e;
         }
-        $this->cacheUtil->clearCache();
+//        $this->cacheUtil->clearCache();
 
         return true;
     }
