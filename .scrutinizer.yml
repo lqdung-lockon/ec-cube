@@ -20,6 +20,20 @@ build_failure_conditions:
       # Code Coverage decreased from previous inspection by more than 10%
     # - 'project.metric_change("scrutinizer.test_coverage", < -0.10)'
 
+build:
+    nodes:
+        coverage:
+            tests:
+                override:
+                    - command: ./bin/phpunit --exclude-group cache-clear,cache-clear-install --coverage-clover=coverage.clover
+                        coverage:
+                            file: coverage.clover
+
+                            # These formats are supported:
+                            # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc
+                            format: clover
+
+
 filter:
     paths: ["src/*", "codeception/*"]
     excluded_paths:
