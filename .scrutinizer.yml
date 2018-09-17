@@ -28,11 +28,7 @@ build:
                     - command: ./bin/phpunit --exclude-group cache-clear,cache-clear-install --coverage-clover=coverage.clover
                         coverage:
                             file: coverage.clover
-
-                            # These formats are supported:
-                            # clover, cobertura, jacoco, python-cc, ruby-cc, go-cc
                             format: clover
-
 
 filter:
     paths: ["src/*", "codeception/*"]
