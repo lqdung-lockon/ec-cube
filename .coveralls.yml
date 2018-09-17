@@ -2,3 +2,5 @@
 #src_dir: src
 coverage_clover: coverage.clover
 json_path: coveralls-upload.json
+service_name: travis-ci
+repo_token: PhNi8PUCGGJGKRAle6sbSrAynSYhda4pW
