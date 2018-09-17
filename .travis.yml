@@ -7,12 +7,12 @@ sudo: required
 
 language: php
 
-addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+#addons:
+#  apt:
+#    sources:
+#      - google-chrome
+#    packages:
+#      - google-chrome-stable
 
 cache:
   directories:
@@ -20,17 +20,17 @@ cache:
     - bin/.phpunit
 
 php:
-  - 7.1
+#  - 7.1
   - 7.2
 
 env:
-  - DATABASE_URL=mysql://root:@localhost/cube4_dev DATABASE_SERVER_VERSION=5
-  - DATABASE_URL=postgres://postgres:password@localhost/cube4_dev DATABASE_SERVER_VERSION=9
-  - DATABASE_URL=sqlite:///%kernel.project_dir%/var/eccube.db DATABASE_SERVER_VERSION=3 COVERAGE=1
+#  - DATABASE_URL=mysql://root:@localhost/cube4_dev DATABASE_SERVER_VERSION=5
+#  - DATABASE_URL=postgres://postgres:password@localhost/cube4_dev DATABASE_SERVER_VERSION=9
+#  - DATABASE_URL=sqlite:///%kernel.project_dir%/var/eccube.db DATABASE_SERVER_VERSION=3 COVERAGE=1
 
 matrix:
   allow_failures:
-    - env: DATABASE_URL=sqlite:///%kernel.project_dir%/var/eccube.db DATABASE_SERVER_VERSION=3 COVERAGE=1
+#    - env: DATABASE_URL=sqlite:///%kernel.project_dir%/var/eccube.db DATABASE_SERVER_VERSION=3 COVERAGE=1
 
 ## see https://github.com/symfony/symfony/blob/e0bdc0c35e9afdb3bee8af172f90e9648c4012fc/.travis.yml#L92-L97
 before_install: &php_setup |
@@ -48,9 +48,9 @@ eccube_setup: &eccube_setup |
   bin/console doctrine:schema:create --env=dev
   bin/console eccube:fixtures:load --env=dev
 
-package_api_setup: &package_api_setup |
-  mkdir ${PWD}/repos
-  docker run -d --rm -v ${PWD}/repos:/repos -e MOCK_REPO_DIR=/repos -p 8080:8080 eccube/mock-package-api
+#package_api_setup: &package_api_setup |
+#  mkdir ${PWD}/repos
+#  docker run -d --rm -v ${PWD}/repos:/repos -e MOCK_REPO_DIR=/repos -p 8080:8080 eccube/mock-package-api
 
 install:
   - &composer_install composer install --dev --no-interaction -o --apcu-autoloader
@@ -147,10 +147,9 @@ jobs:
 #        ./codeception.sh --reset
 #        mysql -h 127.0.0.1 -u root eccube_db -e "update dtb_base_info set authentication_key='test', php_path = '$(which php)';"
 #        ./codeception.sh EA10PluginCest:installFromStore
-
    - stage: Code Coverage
      if: type != pull_request
-     env: DATABASE_URL=sqlite:///%kernel.project_dir%/var/eccube.db DATABASE_SERVER_VERSION=3 COVERAGE=1
+     env: DATABASE_URL=postgres://postgres:password@localhost/cube4_dev DATABASE_SERVER_VERSION=9 COVERAGE=1
      before_install:
        - *php_setup
        - gem install mailcatcher
@@ -158,9 +157,9 @@ jobs:
        - *composer_install
        - *eccube_setup
      script:
-       - docker run -e DATABASE_URL=sqlite:////usr/src/myapp/var/eccube.db -v "$PWD":/usr/src/myapp:cached -w /usr/src/myapp --rm nanasess/phpdbg phpdbg -qrr -dmemory_limit=-1 ./bin/phpunit --exclude-group cache-clear --coverage-clover=coverage.clover
+       - php -d memory_limit=-1 bin/phpunit --exclude-group cache-clear --coverage-clover=coverage.clover
      after_success:
-       - sed -i.bak -e 's|/usr/src/myapp/||g' coverage.clover
+#       - sed -i.bak -e 's|/usr/src/myapp/||g' coverage.clover
        - php vendor/bin/php-coveralls -v -x coverage.clover
      after_script:
        - wget https://scrutinizer-ci.com/ocular.phar
