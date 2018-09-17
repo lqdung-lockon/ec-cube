@@ -25,14 +25,7 @@ build:
         coverage:
             tests:
                 override:
-                    - command:
-                        - composer install --dev --no-interaction -o --apcu-autoloader
-                        - cp .env.dist .env
-                        - echo "APP_ENV=codeception" > .env
-                        - bin/console doctrine:database:create --env=dev
-                        - bin/console doctrine:schema:create --env=dev
-                        - bin/console eccube:fixtures:load --env=dev
-                        - ./bin/phpunit --exclude-group cache-clear,cache-clear-install --coverage-clover=coverage.clover
+                    - command: composer install --dev --no-interaction -o --apcu-autoloader && cp .env.dist .env && echo "APP_ENV=codeception" > .env && bin/console doctrine:database:create --env=dev && bin/console doctrine:schema:create --env=dev && bin/console eccube:fixtures:load --env=dev && ./bin/phpunit --exclude-group cache-clear,cache-clear-install --coverage-clover=coverage.clover
                       coverage:
                           file: coverage.clover
                           format: clover
